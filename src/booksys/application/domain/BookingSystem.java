@@ -84,7 +84,13 @@ public class BookingSystem
       Booking b
 	= restaurant.makeReservation(covers, date, time, tno, name, phone) ;
       currentBookings.addElement(b) ;
-      notifyObservers() ;
+      notifyObservers();
+    }
+    else{
+    	System.out.println("Du er fucking allerede en banen på det bord!");
+    	Booking b = restaurant.addToBookinglist(covers, date, time, tno, name, phone);
+    	System.out.println(b);
+    
     }
   }
  
@@ -96,6 +102,7 @@ public class BookingSystem
       notifyObservers() ;
     }
   }
+  
   
   public void selectBooking(int tno, Time time)
   {
@@ -167,9 +174,10 @@ public class BookingSystem
 	  && startTime.before(b.getEndTime())
 	  && endTime.after(b.getTime())) {
 	doubleBooked = true ;
-	observerMessage("Double booking!", false) ;
+	observerMessage("Vil kunden placeres på venteliste?", true) ;
       }
     }
+    System.out.println(doubleBooked);
     return doubleBooked ;
   }
   

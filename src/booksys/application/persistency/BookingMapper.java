@@ -107,6 +107,26 @@ public class BookingMapper
 				     customer,
 				     arrivalTime) ;
   } 
+  public PersistentReservation addToWaitingList(int covers, Date date, Time time, Table table, Customer customer, Time arrivalTime){
+	  int oid = Database.getInstance().getId() ;
+	    performUpdate("INSERT INTO WaitingList " + "VALUES ('"
+			  + oid + "', '"
+			  + covers + "', '"
+			  + date + "', '"
+			  + time + "', '"
+			  + ((PersistentTable) table).getId() + "', '"
+			  + ((PersistentCustomer) customer).getId() + "', "
+			  + (arrivalTime == null ? "NULL" :
+			     ("'" + arrivalTime.toString() + "'"))
+			  + ")" ) ;
+	    return new PersistentReservation(oid,
+					     covers,
+					     date,
+					     time,
+					     table,
+					     customer,
+					     arrivalTime) ;
+  }
   
   public PersistentWalkIn createWalkIn(int covers,
 				       Date date,

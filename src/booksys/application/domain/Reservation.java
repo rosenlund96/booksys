@@ -23,6 +23,7 @@ public class Reservation extends BookingImp
     arrivalTime = arr ;
   }
 
+
   public java.sql.Time getArrivalTime() {
     return arrivalTime ;
   }
