@@ -15,6 +15,7 @@ import booksys.application.domain.Table ;
 import booksys.storage.* ;
 
 import java.sql.* ;
+import java.util.ArrayList;
 import java.util.Enumeration ;
 import java.util.Hashtable ;
 import java.util.Vector ;
@@ -184,6 +185,16 @@ public class BookingMapper
     String table = b instanceof Reservation ? "Reservation" : "WalkIn" ;
     performUpdate("DELETE FROM " + table + " WHERE oid = '"
 		  + ((PersistentBooking) b).getId() + "'" ) ;
+    System.out.println("Booking slettet");
+    String[] booking = null;
+	try {
+		booking = doQueryToString("SELECT * FROM  `waitinglist` LIMIT 0 , 1");
+		 
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+   System.out.println(booking[1]);
   }
 
   private void performUpdate(String sql)
@@ -199,4 +210,21 @@ public class BookingMapper
       e.printStackTrace() ;
     }
   }
+  public String[] doQueryToString(String query) throws SQLException {
+	  ArrayList<String> list= new ArrayList<String>();
+	 
+		Statement stmt =  Database.getInstance().getConnection().createStatement() ;
+		ResultSet rs = stmt.executeQuery(query);
+		while (rs.next()) {
+			list.add(rs.getString(1));   
+		} 
+		stmt.close();
+		rs.close();
+	  
+		String[] result = new String[list.size()];
+		result = list.toArray(result);
+		
+		
+		return result;
+	}
 }

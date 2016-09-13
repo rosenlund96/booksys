@@ -87,10 +87,13 @@ public class BookingSystem
       notifyObservers();
     }
     else{
-    	System.out.println("Du er fucking allerede en banen pÃ¥ det bord!");
+    	if (observerMessage("Vil kunden på venteliste?", true)){
     	Booking b = restaurant.addToBookinglist(covers, date, time, tno, name, phone);
-    	System.out.println(b);
-    
+    	observerMessage("Kunden blev placeret på ventelisten",false);
+    	}
+    	else{
+    		observerMessage("Kunden blev ikke placeret på venteliste", false);
+    	}
     }
   }
  
@@ -174,7 +177,7 @@ public class BookingSystem
 	  && startTime.before(b.getEndTime())
 	  && endTime.after(b.getTime())) {
 	doubleBooked = true ;
-	observerMessage("Vil kunden placeres pÃ¥ venteliste?", true) ;
+	observerMessage("Overbooked!", false) ;
       }
     }
     System.out.println(doubleBooked);
