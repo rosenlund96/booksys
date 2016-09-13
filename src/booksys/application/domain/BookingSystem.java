@@ -24,6 +24,7 @@ public class BookingSystem
   Restaurant restaurant = null ;
   Vector currentBookings ;
   Booking selectedBooking ;
+  ArrayList<String> booking = null;
 
   // Singleton:
   
@@ -131,6 +132,19 @@ public class BookingSystem
 	restaurant.removeBooking(selectedBooking) ;
 	selectedBooking = null ;
 	notifyObservers() ;
+	if(restaurant.checkWaitingList()!=null){
+		booking = restaurant.checkWaitingList();
+		String[] waitingCustomer = this.booking.get(0).split(";;");
+		int oid = Integer.valueOf(waitingCustomer[0]);
+		int covers = Integer.valueOf(waitingCustomer[1]);
+		Date date = Date.valueOf(waitingCustomer[2]);
+		Time time = Time.valueOf(waitingCustomer[3]);
+		int tableID = Integer.valueOf(waitingCustomer[4]);
+		if(observerMessage("Vil kunde "+oid+" have bord "+tableID+"?",true)){
+			makeReservation(covers, date, time, tableID, "Test", "123");
+			restaurant.deleteWaiter("DELETE FROM waitinglist WHERE oid='"+oid+"';");
+		}
+	}
       }
     }
   }

@@ -9,6 +9,7 @@
 package booksys.application.persistency ;
 
 import booksys.application.domain.Booking ;
+import booksys.application.domain.BookingSystem;
 import booksys.application.domain.Reservation ;
 import booksys.application.domain.Customer ;
 import booksys.application.domain.Table ;
@@ -25,6 +26,7 @@ public class BookingMapper
   // Singleton:
   
   private static BookingMapper uniqueInstance ;
+  private ArrayList<String> booking = null;
 
   public static BookingMapper getInstance()
   {
@@ -186,18 +188,24 @@ public class BookingMapper
     performUpdate("DELETE FROM " + table + " WHERE oid = '"
 		  + ((PersistentBooking) b).getId() + "'" ) ;
     System.out.println("Booking slettet");
-    String[] booking = null;
-	try {
-		booking = doQueryToString("SELECT * FROM  `waitinglist` LIMIT 0 , 1");
-		 
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-   System.out.println(booking[1]);
+	
+	
+	
+  }
+  public ArrayList<String> checkWaitingList(){
+	  try {
+			booking = loadCustomerToArray("SELECT * FROM  `waitinglist` LIMIT 0 , 1");
+			 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return booking;
+	  
   }
 
-  private void performUpdate(String sql)
+  public void performUpdate(String sql)
   {
     try {
       Statement stmt
@@ -210,21 +218,21 @@ public class BookingMapper
       e.printStackTrace() ;
     }
   }
-  public String[] doQueryToString(String query) throws SQLException {
-	  ArrayList<String> list= new ArrayList<String>();
-	 
-		Statement stmt =  Database.getInstance().getConnection().createStatement() ;
+  public ArrayList<String> loadCustomerToArray(String query) throws SQLException{
+		ArrayList<String> list= new ArrayList<String>();
+		Statement stmt = Database.getInstance().getConnection().createStatement() ;
 		ResultSet rs = stmt.executeQuery(query);
-		while (rs.next()) {
-			list.add(rs.getString(1));   
-		} 
+		while(rs.next()){
+			int oid = rs.getInt("oid");
+			int covers = rs.getInt("covers");
+			Date date = rs.getDate("date");
+			Time time = rs.getTime("time");
+			int tableID = rs.getInt("table_id");
+			
+			list.add(oid+";;"+covers+";;"+date+";;"+time+";;"+tableID);
+		}
 		stmt.close();
 		rs.close();
-	  
-		String[] result = new String[list.size()];
-		result = list.toArray(result);
-		
-		
-		return result;
+		return list;
 	}
 }

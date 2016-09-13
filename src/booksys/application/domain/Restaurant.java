@@ -12,6 +12,7 @@ import booksys.application.persistency.* ;
 
 import java.sql.Date ;
 import java.sql.Time ;
+import java.util.ArrayList;
 import java.util.Vector ;
 
 class Restaurant
@@ -68,5 +69,11 @@ class Restaurant
   
   public void removeBooking(Booking b) {
     bm.deleteBooking(b) ;
+  }
+  public ArrayList<String> checkWaitingList(){
+	 return bm.checkWaitingList();
+  }
+  public void deleteWaiter(String SQL){
+	  bm.performUpdate(SQL);
   }
 }
