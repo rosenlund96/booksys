@@ -140,8 +140,10 @@ public class BookingSystem
 		Date date = Date.valueOf(waitingCustomer[2]);
 		Time time = Time.valueOf(waitingCustomer[3]);
 		int tableID = Integer.valueOf(waitingCustomer[4]);
+		String name = waitingCustomer[5];
+		String phone = waitingCustomer[6];
 		if(observerMessage("Vil kunde "+oid+" have bord "+tableID+"?",true)){
-			makeReservation(covers, date, time, tableID, "Test", "123");
+			makeReservation(covers, date, time, tableID, name, phone);
 			restaurant.deleteWaiter("DELETE FROM waitinglist WHERE oid='"+oid+"';");
 		}
 	}
