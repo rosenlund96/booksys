@@ -76,4 +76,7 @@ class Restaurant
   public void deleteWaiter(String SQL){
 	  bm.performUpdate(SQL);
   }
+  public Customer getCustomerInfo(int oid){
+	  return cm.getCustomerForOid(oid);
+  }
 }

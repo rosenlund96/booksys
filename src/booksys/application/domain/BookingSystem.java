@@ -20,11 +20,12 @@ public class BookingSystem
   Date today ;
   
   // Associations:
-
+  Customer customer = null;
   Restaurant restaurant = null ;
   Vector currentBookings ;
   Booking selectedBooking ;
   ArrayList<String> booking = null;
+ 
 
   // Singleton:
   
@@ -135,14 +136,16 @@ public class BookingSystem
 	if(restaurant.checkWaitingList()!=null){
 		booking = restaurant.checkWaitingList();
 		String[] waitingCustomer = this.booking.get(0).split(";;");
+		String[] customerInfo = this.booking.get(0).split(";;");
 		int oid = Integer.valueOf(waitingCustomer[0]);
 		int covers = Integer.valueOf(waitingCustomer[1]);
 		Date date = Date.valueOf(waitingCustomer[2]);
 		Time time = Time.valueOf(waitingCustomer[3]);
 		int tableID = Integer.valueOf(waitingCustomer[4]);
-		String name = waitingCustomer[5];
-		String phone = waitingCustomer[6];
-		if(observerMessage("Vil kunde "+oid+" have bord "+tableID+"?",true)){
+		customer = restaurant.getCustomerInfo(oid);
+		String name = customer.getName();
+		String phone = customer.getPhoneNumber();
+		if(observerMessage("Vil kunde "+name+" have bord "+tableID+"?",true)){
 			makeReservation(covers, date, time, tableID, name, phone);
 			restaurant.deleteWaiter("DELETE FROM waitinglist WHERE oid='"+oid+"';");
 		}

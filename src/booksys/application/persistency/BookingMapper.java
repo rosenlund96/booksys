@@ -228,10 +228,8 @@ public class BookingMapper
 			Date date = rs.getDate("date");
 			Time time = rs.getTime("time");
 			int tableID = rs.getInt("table_id");
-			String name = rs.getString("name");
-			String phone = rs.getString("phone");
 			
-			list.add(oid+";;"+covers+";;"+date+";;"+time+";;"+tableID+";;"+name+";;"+phone);
+			list.add(oid+";;"+covers+";;"+date+";;"+time+";;"+tableID);
 		}
 		stmt.close();
 		rs.close();

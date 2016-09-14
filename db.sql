@@ -37,6 +37,15 @@ CREATE TABLE Reservation (
        customer_id  int,
        arrivalTime  TIME
 ) ;
+CREATE TABLE WaitingList (
+       oid	    int NOT NULL PRIMARY KEY,
+       covers	    int,
+       date	    DATE,
+       time	    TIME,
+       table_id	    int,
+       customer_id  int,
+       arrivalTime  TIME
+) ;
 
 INSERT INTO Oid VALUES (0) ;
 

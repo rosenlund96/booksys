@@ -78,7 +78,7 @@ public class CustomerMapper
     return c ;
   }
   
-  PersistentCustomer getCustomerForOid(int oid)
+  public PersistentCustomer getCustomerForOid(int oid)
   {
     PersistentCustomer c = getFromCache(oid) ;
     if (c == null) {
